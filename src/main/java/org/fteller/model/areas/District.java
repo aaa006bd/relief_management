@@ -30,7 +30,7 @@ public class District {
 
 
 
-    public void AddUpazillas(@NonNull Upazilla... upazillas){
+    public void addUpazillas(@NonNull Upazilla... upazillas){
         this.getUpazillas().addAll(Arrays.asList(upazillas));
     }
 }
