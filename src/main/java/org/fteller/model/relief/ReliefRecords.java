@@ -7,6 +7,9 @@ import lombok.Setter;
 import org.fteller.model.areas.UnionParisad;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -16,14 +19,13 @@ import java.util.Set;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class ReliefRecords {
 
     private @Getter@Setter int id;
     private  @Setter LocalDateTime timestamp ;
     private @Getter@Setter UnionParisad place;
     private @Getter@Setter Organization organization;
-    private ReliefType type;
+    private @Getter@Setter ReliefType type;
 
 
     public LocalDate getDate(){
