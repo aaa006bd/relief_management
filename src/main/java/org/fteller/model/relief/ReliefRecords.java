@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.fteller.model.areas.UnionParisad;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -19,12 +16,24 @@ import java.util.Set;
  */
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class ReliefRecords {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private @Getter@Setter int id;
     private  @Setter LocalDateTime timestamp ;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "union_parisad_id")
     private @Getter@Setter UnionParisad place;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "organization_id")
     private @Getter@Setter Organization organization;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "relief_type_id")
     private @Getter@Setter ReliefType type;
 
 

@@ -6,15 +6,15 @@ import org.fteller.model.areas.UnionParisad;
 import org.fteller.model.areas.repositories.UnionRepository;
 import org.fteller.model.areas.Upazilla;
 import org.fteller.model.areas.repositories.UpazillaRepository;
-import org.fteller.model.relief.ItemRelief;
-import org.fteller.model.relief.MoneyRelief;
-import org.fteller.model.relief.ReliefType;
+import org.fteller.model.relief.*;
+import org.fteller.model.relief.repositories.OrganizationRepository;
 import org.fteller.model.relief.repositories.ReliefTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 @SpringBootApplication
@@ -27,6 +27,8 @@ public class ReliefApplication implements CommandLineRunner {
     private UpazillaRepository upazillaRepository;
     @Autowired
     private ReliefTypeRepository reliefTypeRepository;
+    @Autowired
+    private OrganizationRepository organizationRepository;
 
 
 	public static void main(String[] args) {
@@ -36,12 +38,31 @@ public class ReliefApplication implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        //initalizeDBwithArea();
-        initializeDBWithrelieftype();
+        initalizeDBwithArea();
+//        initializeDBWithrelieftype();
+//        checkRelief();
+        Organization redCrescent = new Organization();
+        redCrescent.setName("International Federation of Red Crescent");
+        redCrescent.setNameAcronym("IFRC");
+        redCrescent.setOrgLevel(OrganizationLevel.INTERNATIONAL);
+        redCrescent.setReliefRecords(new HashSet<ReliefRecords>());
+
+        ReliefType money = new MoneyRelief(30000,60);
+        ReliefRecords record = new ReliefRecords();
+        record.setTimestamp(LocalDateTime.now());
+        record.setOrganization(redCrescent);
+        record.setType(money);
+        record.setPlace(unionRepository.findOne(1));
+
+        redCrescent.addReliefRecords(record);
+        organizationRepository.save(redCrescent);
+
+
+    }
+
+    private void checkRelief() {
         ItemRelief rel = (ItemRelief) reliefTypeRepository.findOne(1);
         System.out.println(rel);
-
-
     }
 
     private void initializeDBWithrelieftype(){
@@ -92,4 +113,6 @@ public class ReliefApplication implements CommandLineRunner {
         unionRepository.save(laksmibazar);
       //  upazillaRepository.save(banaripara);
     }
+
+
 }

@@ -21,4 +21,6 @@ public class ReliefType {
     private @Getter@Setter int id;
     private @Getter@Setter String name;
     private @Getter@Setter String description;
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "type")
+    private @Getter@Setter ReliefRecords itemForRecord;
 }
