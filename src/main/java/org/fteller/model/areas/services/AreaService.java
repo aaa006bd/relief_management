@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -50,6 +51,7 @@ public class AreaService {
         if(!exists) {
             Upazilla upazilla = new Upazilla();
             upazilla.setName(name);
+            upazilla.setUnionParisads(new HashSet<UnionParisad>());
             upazilla.setDistrict(district);
             upazillaRepository.save(upazilla);
             return true;
@@ -63,6 +65,7 @@ public class AreaService {
         if(!exists) {
             District district = new District();
             district.setName(name);
+            district.setUpazillas(new HashSet<Upazilla>());
             district.setDivision(division);
             districtRepository.save(district);
             return true;
@@ -76,6 +79,7 @@ public class AreaService {
         if(!exists) {
             Division division = new Division();
             division.setName(name);
+            division.setDistricts(new HashSet<District>());
             divisionRepository.save(division);
             return true;
         }else
