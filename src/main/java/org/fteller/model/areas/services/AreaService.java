@@ -32,58 +32,92 @@ public class AreaService {
 
     @Transactional
     public boolean createUnion(String name, Upazilla upazilla){
-        List<UnionParisad> existing = unionRepository.findAll();
+        List<UnionParisad> existing = getUnionParisads();
         boolean exists = existing.stream().anyMatch(unionp->unionp.getName().equals(name));
         if(!exists) {
             UnionParisad union = new UnionParisad();
             union.setName(name);
             union.setUpazilla(upazilla);
-            unionRepository.save(union);
+            saveUnion(union);
             return true;
         }else
             return false;
     }
 
+    public void saveUnion(UnionParisad union) {
+        unionRepository.save(union);
+    }
+
+    public List<UnionParisad> getUnionParisads() {
+        return unionRepository.findAll();
+    }
+
     @Transactional
     public boolean createUpazilla(String name, District district){
-        List<Upazilla> existing = upazillaRepository.findAll();
+        List<Upazilla> existing = getUpazillas();
         boolean exists = existing.stream().anyMatch(upz->upz.getName().equals(name));
         if(!exists) {
             Upazilla upazilla = new Upazilla();
             upazilla.setName(name);
             upazilla.setUnionParisads(new HashSet<UnionParisad>());
             upazilla.setDistrict(district);
-            upazillaRepository.save(upazilla);
+            saveUpazilla(upazilla);
             return true;
         }else
             return false;
     }
+
+    public void saveUpazilla(Upazilla upazilla) {
+        upazillaRepository.save(upazilla);
+    }
+
+    public List<Upazilla> getUpazillas() {
+        return upazillaRepository.findAll();
+    }
+
     @Transactional
     public boolean createDistrict(String name, Division division){
-        List<District> existing = districtRepository.findAll();
+        List<District> existing = getDistricts();
         boolean exists = existing.stream().anyMatch(district->district.getName().equals(name));
         if(!exists) {
             District district = new District();
             district.setName(name);
             district.setUpazillas(new HashSet<Upazilla>());
             district.setDivision(division);
-            districtRepository.save(district);
+            saveDistrict(district);
             return true;
         }else
             return false;
     }
+
+    public void saveDistrict(District district) {
+        districtRepository.save(district);
+    }
+
+    public List<District> getDistricts() {
+        return districtRepository.findAll();
+    }
+
     @Transactional
     public boolean createDivison(String name){
-        List<Division> existing = divisionRepository.findAll();
+        List<Division> existing = getDivisions();
         boolean exists = existing.stream().anyMatch(unionp->unionp.getName().equals(name));
         if(!exists) {
             Division division = new Division();
             division.setName(name);
             division.setDistricts(new HashSet<District>());
-            divisionRepository.save(division);
+            saveDivision(division);
             return true;
         }else
             return false;
+    }
+
+    public void saveDivision(Division division) {
+        divisionRepository.save(division);
+    }
+
+    public List<Division> getDivisions() {
+        return divisionRepository.findAll();
     }
 
 
