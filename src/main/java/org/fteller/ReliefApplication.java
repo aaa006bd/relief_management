@@ -15,6 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 @SpringBootApplication
@@ -84,7 +85,7 @@ public class ReliefApplication implements CommandLineRunner {
         //create upazilla
         Upazilla banaripara = new Upazilla();
         banaripara.setName("banaripara");
-        banaripara.setUnionParisads(new HashSet<UnionParisad>());
+        banaripara.setUnionParisads(new HashSet<>());
 
         //create district
         District barisal =  new District();

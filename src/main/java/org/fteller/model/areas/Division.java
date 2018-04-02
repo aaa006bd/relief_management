@@ -1,11 +1,14 @@
 package org.fteller.model.areas;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.fteller.model.areas.District;
 
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,6 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "division")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Division {
 
     @Id
@@ -23,7 +27,8 @@ public class Division {
     private @Getter@Setter String name;
 
     @OneToMany(mappedBy = "division",cascade = CascadeType.ALL)
-    private @Getter@Setter Set<District> districts;
+    private @Getter@Setter
+    Set<District> districts;
 
     public void addDistricts(@NonNull District... districts){
         this.districts.addAll(Arrays.asList(districts));

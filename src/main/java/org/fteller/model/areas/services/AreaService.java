@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class AreaService {
     @Transactional
     public boolean createUnion(String name, Upazilla upazilla){
         List<UnionParisad> existing = getUnionParisads();
-        boolean exists = existing.stream().anyMatch(unionp->unionp.getName().equals(name));
+        boolean exists = existing.stream().anyMatch(unionp->unionp.getName().toLowerCase().equals(name.toLowerCase()));
         if(!exists) {
             UnionParisad union = new UnionParisad();
             union.setName(name);
@@ -55,11 +56,11 @@ public class AreaService {
     @Transactional
     public boolean createUpazilla(String name, District district){
         List<Upazilla> existing = getUpazillas();
-        boolean exists = existing.stream().anyMatch(upz->upz.getName().equals(name));
+        boolean exists = existing.stream().anyMatch(upz->upz.getName().toLowerCase().equals(name.toLowerCase()));
         if(!exists) {
             Upazilla upazilla = new Upazilla();
             upazilla.setName(name);
-            upazilla.setUnionParisads(new HashSet<UnionParisad>());
+            upazilla.setUnionParisads(new HashSet<>());
             upazilla.setDistrict(district);
             saveUpazilla(upazilla);
             return true;
@@ -78,11 +79,11 @@ public class AreaService {
     @Transactional
     public boolean createDistrict(String name, Division division){
         List<District> existing = getDistricts();
-        boolean exists = existing.stream().anyMatch(district->district.getName().equals(name));
+        boolean exists = existing.stream().anyMatch(district->district.getName().toLowerCase().equals(name.toLowerCase()));
         if(!exists) {
             District district = new District();
             district.setName(name);
-            district.setUpazillas(new HashSet<Upazilla>());
+            district.setUpazillas(new HashSet<>());
             district.setDivision(division);
             saveDistrict(district);
             return true;
@@ -101,11 +102,11 @@ public class AreaService {
     @Transactional
     public boolean createDivison(String name){
         List<Division> existing = getDivisions();
-        boolean exists = existing.stream().anyMatch(unionp->unionp.getName().equals(name));
+        boolean exists = existing.stream().anyMatch(unionp->unionp.getName().toLowerCase().equals(name.toLowerCase()));
         if(!exists) {
             Division division = new Division();
             division.setName(name);
-            division.setDistricts(new HashSet<District>());
+            division.setDistricts(new HashSet<>());
             saveDivision(division);
             return true;
         }else

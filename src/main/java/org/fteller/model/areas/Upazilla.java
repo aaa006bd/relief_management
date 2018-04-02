@@ -1,9 +1,12 @@
 package org.fteller.model.areas;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,6 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "upazilla")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Upazilla {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +24,8 @@ public class Upazilla {
     private @Getter@Setter String name;
 
     @OneToMany(mappedBy = "upazilla",cascade = CascadeType.ALL)
-    private @Getter@Setter Set<UnionParisad> unionParisads;
+    private @Getter@Setter
+    Set<UnionParisad> unionParisads;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "district_id")
@@ -30,4 +35,21 @@ public class Upazilla {
         unionParisads.addAll(Arrays.asList(unionParisad));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Upazilla upazilla = (Upazilla) o;
+
+        if (getId() != upazilla.getId()) return false;
+        return getName() != null ? getName().equals(upazilla.getName()) : upazilla.getName() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        return result;
+    }
 }
